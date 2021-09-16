@@ -55,11 +55,8 @@ public class ToySeller {
         switch(toyChoice) {
             case 1:
             case 2:
-            case 3: {
-                System.out.println(sizeQuestion);
-                toySize = scan.nextLine();
+            case 3:
                 break;
-            }
             case 4: System.out.println(endProgram);
                 break;
             default:
@@ -67,39 +64,47 @@ public class ToySeller {
         }
 
         if (toyChoice > 0 && toyChoice < 4) {
-            if (toySize.equals('S')) {
-                totalPrice += 5;
-            } else if (toySize.equals('M')) {
-                totalPrice += 10;                        
-            } else if (toySize.equals('L')) {
-                totalPrice += 15;
-            }
-            
+                        
             switch (toyChoice) {
                 case 1:{
+                    System.out.println(sizeQuestion);
+                    toySize = scan.next();
                     System.out.println(supermanQ1);
-                    answer1 = scan.nextLine();
+                    answer1 = scan.next();
                     System.out.println(supermanQ2);
-                    answer2 = scan.nextLine();
+                    answer2 = scan.next();
                     break;
                 }
                 case 2:{
+                    System.out.println(sizeQuestion);
+                    toySize = scan.next();
                     System.out.println(roboticCyclopsQ1);
-                    answer1 = scan.nextLine();
+                    answer1 = scan.next();
                     System.out.println(roboticCyclopsQ2);
-                    answer2 = scan.nextLine();
+                    answer2 = scan.next();
                     break;
                 }
                 case 3:{
+                    System.out.println(sizeQuestion);
+                    toySize = scan.next();
                     System.out.println(catLampQ1);
-                    answer1 = scan.nextLine();
+                    answer1 = scan.next();
                     System.out.println(catLampQ2);
-                    answer2 = scan.nextLine();
+                    answer2 = scan.next();
                     break;
                 }
                 default:
                     break;
             }
+
+            if (toySize.equals("S")) {
+                totalPrice += 5;
+            } else if (toySize.equals("M")) {
+                totalPrice += 10;                        
+            } else if (toySize.equals("L")) {
+                totalPrice += 15;
+            }
+
             if (toyChoice == 1) {
                 if (answer1.equals("Y")) {
                     totalPrice += 8;
@@ -153,3 +158,5 @@ public class ToySeller {
     }
 }
 
+/*i
+            */
