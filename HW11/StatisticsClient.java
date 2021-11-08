@@ -7,12 +7,20 @@ public class StatisticsClient {
     public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
         int option;
         String message;
+        String host;
 
         JOptionPane.showMessageDialog(null, "Welcome to Statistics Calculations Program!", "Welcome",
                 JOptionPane.INFORMATION_MESSAGE);
         // host = localhost , port = 2212
-        String host = JOptionPane.showInputDialog(null, "Enter host name: ", "Statistics Calculator",
-                JOptionPane.QUESTION_MESSAGE);
+        do {
+            host = JOptionPane.showInputDialog(null, "Enter host name: ", "Statistics Calculator",
+                    JOptionPane.QUESTION_MESSAGE);
+            if (host.equals(""))
+                JOptionPane.showMessageDialog(null, "Host name cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
+            if (host == null)
+                return;
+
+        } while (host.equals(""));
         String port = JOptionPane.showInputDialog(null, "Enter port number: ", "Statistics Calculator",
                 JOptionPane.QUESTION_MESSAGE);
         int portNumber = Integer.parseInt(port);
@@ -39,20 +47,25 @@ public class StatisticsClient {
                 writer.println();
                 writer.flush();
 
-                String statistics = reader.readLine();
-                while (true) {
-                    String next = reader.readLine();
-                    if (next == null)
-                        break;
-                    statistics += "\n" + next;
-                }
+                String statistics = reader.readLine() + "\n";
+                statistics += reader.readLine() + "\n";
+                statistics += reader.readLine() + "\n";
+                statistics += reader.readLine() + "\n";
+                statistics += reader.readLine() + "\n";
+                statistics += reader.readLine();
+                /*
+                 * while (true) { String next = reader.readLine(); System.out.println(next); if
+                 * (next == null) break; statistics += "\n" + next;
+                 * //System.out.println(statistics); }
+                 */
+                // System.out.println(statistics);
 
                 JOptionPane.showMessageDialog(null, statistics, "Statistics Calculator",
                         JOptionPane.INFORMATION_MESSAGE);
                 option = JOptionPane.showConfirmDialog(null, "Would you like to enter another message?",
                         "Statistics Calculator", JOptionPane.YES_NO_OPTION);
-                writer.close();
-                reader.close();
+                // writer.close();
+                // reader.close();
             } while (option == 0);
             JOptionPane.showMessageDialog(null, "Thank you for using statistics calculator!", "Statistics Calculator",
                     JOptionPane.INFORMATION_MESSAGE);

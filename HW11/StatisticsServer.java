@@ -44,7 +44,7 @@ public class StatisticsServer {
         String count = "";
         for (int i = 0; i < digits.length; i++) {
             if (digits[i] > 0)
-                count += String.valueOf(i) + "-" + String.valueOf(digits[i]) + '\n';
+                count += String.valueOf(i) + "-" + String.valueOf(digits[i]) + ' ';
         }
         return count;
     }
@@ -65,7 +65,7 @@ public class StatisticsServer {
         String count = "";
         for (int i = 0; i < alphabets.length; i++) {
             if (alphabets[i] > 0)
-                count += (char) (i + 'a') + "-" + String.valueOf(alphabets[i]) + '\n';
+                count += (char) (i + 'a') + "-" + String.valueOf(alphabets[i]) + ' ';
         }
         return count;
 
@@ -79,11 +79,11 @@ public class StatisticsServer {
         if (digitCount(message).equals(""))
             string += "Message doesn't contain any digits\n";
         else
-            string += "Digit Count: " + "\n" + digitCount(message);
+            string += "Digit Count: " + digitCount(message) + '\n';
         if (alphaCount(message).equals(""))
             string += "Message doesn't contain any alphabets\n";
         else
-            string += "Alphabet Count: " + "\n" + alphaCount(message);
+            string += "Alphabet Count: " + alphaCount(message);
         return string;
     }
 
@@ -92,12 +92,19 @@ public class StatisticsServer {
         Socket socket = serverSocket.accept();
         BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintWriter writer = new PrintWriter(socket.getOutputStream());
-        String message = reader.readLine();
-        String response = statisticsString(message);
-        System.out.println(response);
-        writer.write(response);
-        writer.println();
-        writer.flush();
+
+        while (true) {
+            String message = reader.readLine();
+            if (message == null) {
+                break;
+            }
+            String response = statisticsString(message);
+            System.out.println(response);
+            writer.write(response);
+            writer.println();
+            writer.flush();
+        }
+
         writer.close();
         reader.close();
 
