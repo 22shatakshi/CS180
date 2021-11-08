@@ -9,35 +9,34 @@ public class StatisticsClient {
         String message;
         String host;
 
-        JOptionPane.showMessageDialog(null, "Welcome to Statistics Calculations Program!", "Welcome",
-                JOptionPane.INFORMATION_MESSAGE);
+        showMessage("Welcome to Statistics Calculations Program!", "Welcome");
         // host = localhost , port = 2212
         do {
-            host = JOptionPane.showInputDialog(null, "Enter host name: ", "Statistics Calculator",
-                    JOptionPane.QUESTION_MESSAGE);
-            if (host.equals(""))
-                JOptionPane.showMessageDialog(null, "Host name cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
-            if (host == null)
+            host = inputMethod("Enter host name: ");
+            if (host == null) {
+                exitMessage();
                 return;
-
+            }
+            if (host.equals(""))
+                errorMessage("Host name cannot be empty!");
         } while (host.equals(""));
-        String port = JOptionPane.showInputDialog(null, "Enter port number: ", "Statistics Calculator",
-                JOptionPane.QUESTION_MESSAGE);
-        int portNumber = Integer.parseInt(port);
-        try {
-            Socket socket = new Socket(host, portNumber);
+        String port = inputMethod("Enter port number: ");
 
-            JOptionPane.showMessageDialog(null, "Connection Established!", "Statistics Calculator",
-                    JOptionPane.INFORMATION_MESSAGE);
+        try {
+            int portNumber = Integer.parseInt(port);
+            Socket socket = new Socket(host, portNumber);
+            showMessage("Connection Established!", "Statistics Calculator");
             do {
                 boolean empty = false;
                 do {
-                    message = JOptionPane.showInputDialog(null, "Enter message: ", "Statistics Calculator",
-                            JOptionPane.QUESTION_MESSAGE);
+                    message = inputMethod("Enter message: ");
                     empty = false;
-                    if (message == null || message.equals("")) {
-                        JOptionPane.showMessageDialog(null, "Message cannot be empty!", "Statistics Calculator",
-                                JOptionPane.ERROR_MESSAGE);
+                    if (message == null) {
+                        exitMessage();
+                        return;
+                    }
+                    if (message.equals("")) {
+                        errorMessage("Message cannot be empty!");
                         empty = true;
                     }
                 } while (empty);
@@ -53,26 +52,41 @@ public class StatisticsClient {
                 statistics += reader.readLine() + "\n";
                 statistics += reader.readLine() + "\n";
                 statistics += reader.readLine();
-                /*
-                 * while (true) { String next = reader.readLine(); System.out.println(next); if
-                 * (next == null) break; statistics += "\n" + next;
-                 * //System.out.println(statistics); }
-                 */
-                // System.out.println(statistics);
-
-                JOptionPane.showMessageDialog(null, statistics, "Statistics Calculator",
-                        JOptionPane.INFORMATION_MESSAGE);
-                option = JOptionPane.showConfirmDialog(null, "Would you like to enter another message?",
-                        "Statistics Calculator", JOptionPane.YES_NO_OPTION);
-                // writer.close();
-                // reader.close();
+                showMessage(statistics, "Statistics Calculator");
+                option = confirmMethod("Would you like to enter another message?");
             } while (option == 0);
-            JOptionPane.showMessageDialog(null, "Thank you for using statistics calculator!", "Statistics Calculator",
-                    JOptionPane.INFORMATION_MESSAGE);
+            exitMessage();
+            return;
+        } catch (NumberFormatException e) {
+            errorMessage("Error establishing connection!\nUser entered incorrect format of port number!");
             return;
         } catch (UnknownHostException e) {
-            JOptionPane.showMessageDialog(null, "Error establishing connection!", "Error", JOptionPane.ERROR_MESSAGE);
+            errorMessage("Error establishing connection!\nUnknown Host!");
             return;
         }
+    }
+
+    public static int confirmMethod(String question) {
+        int choice = JOptionPane.showConfirmDialog(null, question, "Statistics Calculator", JOptionPane.YES_NO_OPTION);
+        return choice;
+    }
+
+    public static String inputMethod(String question) {
+        String input = JOptionPane.showInputDialog(null, question, "Statistics Calculator",
+                JOptionPane.QUESTION_MESSAGE);
+        return input;
+    }
+
+    public static void showMessage(String text, String title) {
+        JOptionPane.showMessageDialog(null, text, title, JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public static void exitMessage() {
+        JOptionPane.showMessageDialog(null, "Thank you for using statistics calculator!", "Statistics Calculator",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public static void errorMessage(String error) {
+        JOptionPane.showMessageDialog(null, error, "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
